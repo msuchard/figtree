@@ -235,8 +235,7 @@ public class AttributeColourController extends AbstractController {
                         } else if (colourSettings.startsWith("NewFixedDiscrete")) {
                             String settingsString = colourSettings.substring("NewFixedDiscrete".length());
                             if (decorator == null || !(decorator instanceof LemeyFixedDiscreteColourDecorator)) {
-                                decorator = new LemeyFixedDiscreteColourDecorator(attribute, settingsString,
-                                        (DiscreteColourDecorator) decorator);
+                                decorator = new LemeyFixedDiscreteColourDecorator(attribute, settingsString);
                             } else {
                                 decorator.setup(settingsString);
                             }
@@ -300,6 +299,8 @@ public class AttributeColourController extends AbstractController {
                 name = "HSBContinuous";
             } else if (decorator instanceof InterpolatingColourDecorator) {
                 name = "InterpolatingContinuous";
+            } else if (decorator instanceof LemeyFixedDiscreteColourDecorator) {
+                name = "LemeyFixedDiscrete";
             } else {
                 throw new IllegalArgumentException("Unrecognized colour decorator type");
             }

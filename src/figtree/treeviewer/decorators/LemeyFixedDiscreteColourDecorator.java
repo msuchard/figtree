@@ -44,11 +44,9 @@ public class LemeyFixedDiscreteColourDecorator extends DiscreteColourDecorator {
         setupColours();
     }
 
-    public LemeyFixedDiscreteColourDecorator(String attributeName, String settings, DiscreteColourDecorator old) {
+    public LemeyFixedDiscreteColourDecorator(String attributeName, String settings) {
         super(attributeName);
         setup(settings);
-        setValues(old.getValues());
-        System.err.println("here");
     }
 
 //    public LemeyFixedDiscreteColourDecorator(String attributeName, String settings, Set<? extends Attributable> items) {
@@ -71,11 +69,10 @@ public class LemeyFixedDiscreteColourDecorator extends DiscreteColourDecorator {
 
         String[] colorStrings = settings.substring(1, settings.length() - 1).split("[, ]+");
 
-        Color[] colors = new Color[colorStrings.length];
+        colors = new Color[colorStrings.length];
         for (int i = 0; i < colorStrings.length; ++i) {
             colors[i] = getColor(colorStrings[i]);
         }
-
 
         setColourMap(getValues(), colors);
     }
@@ -84,12 +81,10 @@ public class LemeyFixedDiscreteColourDecorator extends DiscreteColourDecorator {
         setup(COLOR_STRING);
     }
 
-//    protected void setupColours() {
-//        setColourMap(getValues(), DEFAULT_PAINTS);
-//    }
+    private Color[] colors;
 
-    protected Color getColourForValue(Object value) {
-        return super.getColourForValue(value);
+    private String getString(Color color) {
+        return Integer.toHexString(color.getRGB()).substring(2).toUpperCase();
     }
 
     /**
@@ -100,9 +95,11 @@ public class LemeyFixedDiscreteColourDecorator extends DiscreteColourDecorator {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
-        sb.append("FIXED");
+        sb.append("#").append(getString(colors[0]));
+        for (int i = 1; i < colors.length; ++i) {
+            sb.append(",#").append(getString(colors[i]));
+        }
         sb.append("}");
         return sb.toString();
     }
-
 }
