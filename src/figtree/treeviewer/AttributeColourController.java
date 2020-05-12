@@ -232,8 +232,8 @@ public class AttributeColourController extends AbstractController {
                             } else {
                                 decorator.setup(settingsString);
                             }
-                        } else if (colourSettings.startsWith("NewFixedDiscrete")) {
-                            String settingsString = colourSettings.substring("NewFixedDiscrete".length());
+                        } else if (colourSettings.startsWith("LemeyFixedDiscrete")) {
+                            String settingsString = colourSettings.substring("LemeyFixedDiscrete".length());
                             if (decorator == null || !(decorator instanceof LemeyFixedDiscreteColourDecorator)) {
                                 decorator = new LemeyFixedDiscreteColourDecorator(attribute, settingsString);
                             } else {
