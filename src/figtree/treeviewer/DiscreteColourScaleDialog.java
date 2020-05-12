@@ -55,12 +55,13 @@ public class DiscreteColourScaleDialog {
 
     private static final String HSB_SPECTRUM = "HSB Spectrum";
     private static final String FIXED_COLOURS = "Fixed Colours";
+    private static final String LEMEY_COLOURS = "Lemey Colours";
 
     private JFrame frame;
 
 
 
-    private JComboBox colourSchemeCombo = new JComboBox(new String[] { HSB_SPECTRUM, FIXED_COLOURS} );
+    private JComboBox colourSchemeCombo = new JComboBox(new String[] { HSB_SPECTRUM, FIXED_COLOURS, LEMEY_COLOURS } );
 
     CardLayout cardLayout = new CardLayout();
     private final JPanel colourSchemePanel;
@@ -82,9 +83,11 @@ public class DiscreteColourScaleDialog {
 
         colourSchemeNamePanelMap.put(HSB_SPECTRUM, new HSBColourSchemePanel());
         colourSchemeNamePanelMap.put(FIXED_COLOURS, new FixedColourSchemePanel());
+        colourSchemeNamePanelMap.put(LEMEY_COLOURS, new LemeyColourSchemePanel());
 
         colourSchemeClassNameMap.put(HSBDiscreteColourDecorator.class, HSB_SPECTRUM);
         colourSchemeClassNameMap.put(FixedDiscreteColourDecorator.class, FIXED_COLOURS);
+        colourSchemeClassNameMap.put(LemeyFixedDiscreteColourDecorator.class, LEMEY_COLOURS);
 
 
         colourSchemePanel = new JPanel(cardLayout);
@@ -523,6 +526,46 @@ public class DiscreteColourScaleDialog {
         }
 
         private FixedDiscreteColourDecorator fixedDecorator = null;
+
+        private JPanel panel = null;
+    }
+
+    private class LemeyColourSchemePanel implements ColourSchemePanel  {
+        public LemeyColourSchemePanel() {
+        }
+
+        public void setDecorator(DiscreteColourDecorator decorator) {
+            if (decorator instanceof LemeyFixedDiscreteColourDecorator) {
+                fixedDecorator = (LemeyFixedDiscreteColourDecorator)decorator;
+            } else {
+                if (fixedDecorator == null) {
+                    fixedDecorator = new LemeyFixedDiscreteColourDecorator(decorator.getAttributeName());
+                }
+            }
+            fixedDecorator.setValues(discreteValues);
+        }
+
+        @Override
+        public  DiscreteColourDecorator getDecorator() {
+            return fixedDecorator;
+        }
+
+        @Override
+        public JPanel getPanel() {
+            if (panel == null) {
+                final OptionsPanel options = new OptionsPanel(6, 6);
+
+                panel = options;
+            }
+            return panel;
+        }
+
+        @Override
+        public String getName() {
+            return LEMEY_COLOURS;
+        }
+
+        private LemeyFixedDiscreteColourDecorator fixedDecorator = null;
 
         private JPanel panel = null;
     }
