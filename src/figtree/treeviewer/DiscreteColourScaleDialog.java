@@ -59,8 +59,6 @@ public class DiscreteColourScaleDialog {
 
     private JFrame frame;
 
-
-
     private JComboBox colourSchemeCombo = new JComboBox(new String[] { HSB_SPECTRUM, FIXED_COLOURS, LEMEY_COLOURS } );
 
     CardLayout cardLayout = new CardLayout();
@@ -539,7 +537,8 @@ public class DiscreteColourScaleDialog {
                 fixedDecorator = (LemeyFixedDiscreteColourDecorator)decorator;
             } else {
                 if (fixedDecorator == null) {
-                    fixedDecorator = new LemeyFixedDiscreteColourDecorator(decorator.getAttributeName());
+                    fixedDecorator = new LemeyFixedDiscreteColourDecorator(decorator.getAttributeName(),
+                            LemeyFixedDiscreteColourDecorator.COUNTRY_COLOR_44);
                 }
             }
             fixedDecorator.setValues(discreteValues);
@@ -547,18 +546,55 @@ public class DiscreteColourScaleDialog {
 
         @Override
         public  DiscreteColourDecorator getDecorator() {
+
+            settingValues = true;
+
+            if (primaryAxisCombo.getSelectedIndex() == 0) {
+                fixedDecorator = new LemeyFixedDiscreteColourDecorator(fixedDecorator.getAttributeName(),
+                        LemeyFixedDiscreteColourDecorator.COUNTRY_COLOR_41);
+            } else if (primaryAxisCombo.getSelectedIndex() == 1) {
+                fixedDecorator = new LemeyFixedDiscreteColourDecorator(fixedDecorator.getAttributeName(),
+                        LemeyFixedDiscreteColourDecorator.COUNTRY_COLOR_44);
+            } else if (primaryAxisCombo.getSelectedIndex() == 2) {
+                fixedDecorator = new LemeyFixedDiscreteColourDecorator(fixedDecorator.getAttributeName(),
+                        LemeyFixedDiscreteColourDecorator.CONTINENT_COLOR_41);
+            } else if (primaryAxisCombo.getSelectedIndex() == 3) {
+                fixedDecorator = new LemeyFixedDiscreteColourDecorator(fixedDecorator.getAttributeName(),
+                        LemeyFixedDiscreteColourDecorator.CONTINENT_COLOR_44);
+            } else {
+                throw new RuntimeException("Unknown fixed colors");
+            }
+            fixedDecorator.setValues(discreteValues);
+
+            settingValues = false;
+
             return fixedDecorator;
         }
+
+        private boolean settingValues = false;
 
         @Override
         public JPanel getPanel() {
             if (panel == null) {
+
                 final OptionsPanel options = new OptionsPanel(6, 6);
+
+                options.addComponentWithLabel("Scheme: ", primaryAxisCombo);
+
+                primaryAxisCombo.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent event) {
+                        getDecorator();
+                        tableModel.fireTableDataChanged();
+                    }
+                });
 
                 panel = options;
             }
             return panel;
         }
+
+        private JComboBox primaryAxisCombo = new JComboBox(
+                new String[] {"Country 41", "Country 44", "Continent 41", "Continent 44"});
 
         @Override
         public String getName() {

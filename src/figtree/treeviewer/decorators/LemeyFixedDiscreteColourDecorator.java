@@ -20,32 +20,29 @@
 
 package figtree.treeviewer.decorators;
 
-import jebl.util.Attributable;
-
 import java.awt.*;
-import java.util.Set;
 
 /**
- * @author Andrew Rambaut
- * @version $Id$
- *
- * $HeadURL$
- *
- * $LastChangedBy$
- * $LastChangedDate$
- * $LastChangedRevision$
+ * @author Marc A. Suchard
  */
 public class LemeyFixedDiscreteColourDecorator extends DiscreteColourDecorator {
 
-    private static String COLOR_STRING = "{#A6CEE3,#83B8D6,#ECD87E,#FBFA99,#D8AD61,#DA9A87,#F88E8D,#F26D6D,#EC4C4D,#E89459,#E62D25,#EC573A,#E62B2D,#F38150,#F9AB65,#FDB65F,#FDA543,#FE9526,#FE840A,#F68722,#60A2CA,#3E8CBE,#227AB3,#DBA190,#CDAEC7,#4894A8,#B89CCA,#6DAF9D,#C48344,#9F7EBB,#93C992,#749E4F,#A79C6B,#ACDC85,#8760AC,#6E429C,#8BCB6D,#6BBB55,#4AAB3D,#896599,#AF9799,#409F33,#B15928,#D5C899}";
+    public static String COUNTRY_COLOR_41 = "{#A6CEE3,#83B8D6,#ECD87E,#FBFA99,#D8AD61,#DA9A87,#F88E8D,#F26D6D,#EC4C4D,#E89459,#EC573A,#E62B2D,#F9AB65,#FDB65F,#FDA543,#FE9526,#FE840A,#F68722,#60A2CA,#3E8CBE,#227AB3,#DBA190,#CDAEC7,#4894A8,#B89CCA,#6DAF9D,#C48344,#9F7EBB,#93C992,#749E4F,#A79C6B,#8760AC,#6E429C,#8BCB6D,#6BBB55,#4AAB3D,#896599,#AF9799,#409F33,#B15928,#D5C899}";
+    public static String COUNTRY_COLOR_44 = "{#A6CEE3,#83B8D6,#ECD87E,#FBFA99,#D8AD61,#DA9A87,#F88E8D,#F26D6D,#EC4C4D,#E89459,#E62D25,#EC573A,#E62B2D,#F38150,#F9AB65,#FDB65F,#FDA543,#FE9526,#FE840A,#F68722,#60A2CA,#3E8CBE,#227AB3,#DBA190,#CDAEC7,#4894A8,#B89CCA,#6DAF9D,#C48344,#9F7EBB,#93C992,#749E4F,#A79C6B,#ACDC85,#8760AC,#6E429C,#8BCB6D,#6BBB55,#4AAB3D,#896599,#AF9799,#409F33,#B15928,#D5C899}";
+    public static String CONTINENT_COLOR_41 = "{#984ea3,#4daf4a,#377eb8,#ff7f00,#377eb8,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#4daf4a,#4daf4a,#4daf4a,#ff7f00,#ff7f00,#4daf4a,#ff7f00,#4daf4a,#377eb8,#ff7f00,#4daf4a,#984ea3,#ffff33,#ff7f00,#ff7f00,#4daf4a,#4daf4a,#4daf4a,#ff7f00,#ff7f00,#4daf4a,#377eb8,#ff7f00}";
+    public static String CONTINENT_COLOR_44 = "{#984ea3,#4daf4a,#377eb8,#ff7f00,#377eb8,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#e41a1c,#4daf4a,#4daf4a,#4daf4a,#ff7f00,#ff7f00,#4daf4a,#ff7f00,#4daf4a,#377eb8,#ff7f00,#4daf4a,#984ea3,#ffff33,#4daf4a,#ff7f00,#ff7f00,#4daf4a,#4daf4a,#4daf4a,#ff7f00,#ff7f00,#4daf4a,#377eb8,#ff7f00}";
 
-    public LemeyFixedDiscreteColourDecorator(String attributeName) {
-        super(attributeName);
-        setupColours();
-    }
+//    public LemeyFixedDiscreteColourDecorator(String attributeName, String defaultColorString) {
+//        super(attributeName);
+////        setupColours();
+//        setup(defaultColorString);
+//    }
+
+    private final String settings;
 
     public LemeyFixedDiscreteColourDecorator(String attributeName, String settings) {
         super(attributeName);
+        this.settings = settings;
         setup(settings);
     }
 
@@ -57,11 +54,7 @@ public class LemeyFixedDiscreteColourDecorator extends DiscreteColourDecorator {
     private Color getColor(String rgb) {
         return Color.decode(rgb);
     }
-
-    /**
-     * Set up from a settings string
-     * @param settings
-     */
+    
     public void setup(String settings) {
         if (!settings.startsWith("{") || !settings.endsWith("}")) {
             throw new IllegalArgumentException("LemeyFixedDiscreteColourDecorator settings string not in correct format");
@@ -78,7 +71,7 @@ public class LemeyFixedDiscreteColourDecorator extends DiscreteColourDecorator {
     }
 
     protected void setupColours() {
-        setup(COLOR_STRING);
+        setup(settings);
     }
 
     private Color[] colors;
